@@ -20,6 +20,9 @@ exports.getAllSessions =(userData)=>{
 exports.getAllSessionsByFilm =(userData)=>{
     return Session.find({cinema: userData.cinema, film: userData.film})
 };
+exports.getSessions = (userData)=>{
+    return Session.find(userData)
+}
 exports.getAllSessionsByDate =(userData)=>{
     return Session.find({cinema: userData.cinema, film: userData.film, date: userData.date})
 };

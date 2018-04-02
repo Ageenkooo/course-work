@@ -37,8 +37,9 @@ router.get('/films', (req, res, next) => {
     });
 
 router.post('/sessions', (req, res, next) => {
+    console.log(req.body)
     sessionApi
-        .getAllSessions(req.body)
+        .getSessions(req.body)
         .then((result) => {
             console.log(result);
             return res.json(result)

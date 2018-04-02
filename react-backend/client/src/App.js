@@ -33,11 +33,15 @@ class App extends Component {
         this.sortFilms = this
             .sortFilms
             .bind(this);
+        this.changeDate = this
+            .changeDate
+            .bind(this);
         this.state = {
             cinema: '',
             cinemas: [],
             films: [],
-            sessions: []
+            sessions: [],
+            date: ''
         }
     }
     componentDidMount() {
@@ -58,18 +62,28 @@ class App extends Component {
     }
     sortFilms(e) {
         const state = this.state;
-        state[e.target.getAttribute("name")] = e.target.innerHTML;
+        state[
+            e
+                .target
+                .getAttribute("name")
+        ] = e.target.innerHTML;
         this.setState(state);
         $.ajax({
             type: 'post',
             url: '/sessions',
-            data: JSON.stringify({cinema: this.state.cinema}),
+            data: this.state.date
+                ? JSON.stringify({cinema: this.state.cinema, date: this.state.date})
+                : JSON.stringify({cinema: this.state.cinema}),
             dataType: "json",
             contentType: "application/json",
-            success: (data)=>{
+            success: (data) => {
                 console.log(data)
-                this.setState({films: data.map((one)=>{return {name: one}})});
-            },
+                this.setState({
+                    films: data.map((one) => {
+                        return {name: one.film}
+                    })
+                });
+            }
         });
     }
     showCinemas() {
@@ -80,27 +94,58 @@ class App extends Component {
                 return <Lable onClick={this.sortFilms} name={'cinema'}>{cinema.name}</Lable>
             })
     }
+    changeDate(e) {
+        if (e.target.getAttribute('datetime') !== null) {
+            this.state.date = e
+                .target
+                .getAttribute('datetime')
+                .slice(0, 10)
+                .replace(new RegExp("-", 'g'), '.');
+            this.setState(this);
+            console.log(this.state)
+            $.ajax({
+                type: 'post',
+                url: '/sessions',
+                data: this.state.cinema
+                ? JSON.stringify({cinema: this.state.cinema, date: this.state.date})
+                : JSON.stringify({date: this.state.date}),
+                dataType: "json",
+                contentType: "application/json",
+                success: (data) => {
+                    console.log(data)
+                    this.setState({
+                        films: data.map((one) => {
+                            return {name: one.film}
+                        })
+                    });
+                }
+            });
+        }
+
+    }
     show() {
-        return this
-            .state
-            .films
-            .map((film) => {
-                return <Film name={film.name}
-                    // from={film.date}
+        if (this.state.films.length != 0) 
+            return this
+                .state
+                .films
+                .map((film) => {
+                    return <Film name={film.name}
+                        // from={film.date}
 />
-            })
+                })
+        else 
+            return <p>Нет фильмов на эту дату или в этом кинотеатре</p>
     }
     render() {
         return (
             <div >
-
                 <MyCinemaList>
                     <CinemaList>
                         <P>Кинотеатры</P>
                         {this.showCinemas()}
                     </CinemaList>
                 </MyCinemaList>
-                <Calendar/> {this.show()}
+                <Calendar onClick={this.changeDate}/> {this.show()}
             </div>
         );
     }

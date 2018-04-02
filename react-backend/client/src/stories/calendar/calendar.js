@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Calendar from 'react-calendar';
 import styled from 'styled-components';
 
-const Div = styled.div`
+const Div = styled.div `
     &.show{
         cursor: pointer;
         padding-right: 1vw;
@@ -31,28 +31,32 @@ const Div = styled.div`
 `;
 
 class MyCalendar extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.change = this.change.bind(this);
-        this.state = {date: new Date(),
-                      class: "calendar unactive"}
+        this.change = this
+            .change
+            .bind(this);
+        this.state = {
+            date: new Date(),
+            class: "calendar unactive"
+        }
     }
-    onChange = date => this.setState({ date: date });
+    onChange = date => this.setState({date: date});
 
-    change(){
-        if(this.state.class === "calendar unactive")
+    change() {
+        if (this.state.class === "calendar unactive") 
             this.state.class = "calendar";
-        else this.state.class = "calendar unactive";
+        else 
+            this.state.class = "calendar unactive";
         this.setState(this.state);
     }
     render() {
         return (
-            <Div  className={this.state.class} >
-                <Div className={"show"} onClick={this.change}> O </Div>
-                <Calendar
-                    onChange={this.onChange}
-                    value={this.state.date}
-                />
+            <Div className={this.state.class} onClick={this.props.onClick}>
+                <Div className={"show"} onClick={this.change}>
+                    O
+                </Div>
+                <Calendar onChange={this.onChange} onClick={this.props.onClick} value={this.state.date}/>
             </Div>
         );
     }
