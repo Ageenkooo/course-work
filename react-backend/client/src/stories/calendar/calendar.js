@@ -15,7 +15,7 @@ const Div = styled.div `
         padding: 3vh 1vw;
 	    color: white;
 	    background-color: rgba(224,190,191, 1);
-	    height: 18vw;
+	    height: 20vw;
 	    position: absolute !important;
 	    z-index: 1;
 	    border-top-left-radius: 5px;
