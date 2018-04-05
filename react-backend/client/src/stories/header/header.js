@@ -9,19 +9,19 @@ const Div = styled.div`
 	flex-direction: row;
 	justify-content: space-between;
 	color: white;
-	padding-left: 10vw;
+	padding-left: 11vw;
 	padding-right: 10vw;
 	font-size: 1.5vw;
-	background-color: #2f3c5e;
+    background-color: #2f3c5e;
 `;
 
 const LableS = styled.p`
     color : white;
 	font-size : 1em;
-	margin-top: 1.5em;
+	margin-top: 1em;
 	font-family: Geneva, Arial, Helvetica, sans-serif;
 	font-weight : 500;
-	padding: 2%;
+	/* padding: 2%; */
 `;
 class Header extends React.Component{
     constructor(props) {

@@ -3,11 +3,15 @@ import logo from './logo.svg';
 import styled from 'styled-components';
 import cn from 'classnames';
 import './App.css';
+import { Link } from 'react-router-dom'
 import Header from './stories/header/header'
 import Film from './stories/film/film'
 import CinemaList from './stories/cinema/cinema'
 import Calendar from './stories/calendar/calendar'
 import Lable from './stories/lable/lable'
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import * as Actions from './actions';
 import $ from 'jquery';
 window.jQuery = window.$ = $;
 
@@ -24,6 +28,9 @@ const P = styled.p `
 class App extends Component {
     constructor(props) {
         super(props);
+        this.filterFilms = this
+            .filterFilms
+            .bind(this);
         this.show = this
             .show
             .bind(this);
@@ -40,6 +47,9 @@ class App extends Component {
             cinema: '',
             cinemas: [],
             films: [],
+            currentfilms: [],
+            filmsbydate: [],
+            filmsbysession: [],
             sessions: [],
             date: ''
         }
@@ -57,6 +67,7 @@ class App extends Component {
                 .json()
                 .then((result) => {
                     this.setState({films: result});
+                    this.setState({currentfilms: result});
                 })
         })
     }
@@ -77,12 +88,12 @@ class App extends Component {
             dataType: "json",
             contentType: "application/json",
             success: (data) => {
-                console.log(data)
                 this.setState({
-                    films: data.map((one) => {
-                        return {name: one.film}
+                    filmsbysession: data.map((one) => {
+                        return one.film
                     })
                 });
+                this.filterFilms(this.state.filmsbysession);
             }
         });
     }
@@ -107,21 +118,29 @@ class App extends Component {
                 type: 'post',
                 url: '/sessions',
                 data: this.state.cinema
-                ? JSON.stringify({cinema: this.state.cinema, date: this.state.date})
-                : JSON.stringify({date: this.state.date}),
+                    ? JSON.stringify({cinema: this.state.cinema, date: this.state.date})
+                    : JSON.stringify({date: this.state.date}),
                 dataType: "json",
                 contentType: "application/json",
                 success: (data) => {
-                    console.log(data)
                     this.setState({
-                        films: data.map((one) => {
-                            return {name: one.film}
+                        filmsbydate: data.map((one) => {
+                            return one.film
                         })
                     });
+                    this.filterFilms(this.state.filmsbydate);
                 }
             });
         }
-
+    }
+    filterFilms(array) {
+        this.state.films = this
+            .state
+            .currentfilms
+            .filter((film) => {
+                return array.indexOf(film.name) > -1
+            });
+        this.setState(this);
     }
     show() {
         if (this.state.films.length != 0) 
@@ -129,9 +148,9 @@ class App extends Component {
                 .state
                 .films
                 .map((film) => {
-                    return <Film name={film.name}
-                        // from={film.date}
-/>
+                    return <Link to={`/about/${film.name}`} key={film.name}>
+                        <Film name={film.name} src={film.poster}  onClick={()=>{this.props.actions.select(film)}} />
+                    </Link>
                 })
         else 
             return <p>Нет фильмов на эту дату или в этом кинотеатре</p>
@@ -151,4 +170,11 @@ class App extends Component {
     }
 }
 
-export default App;
+function mapStateToProps(state) {
+    return {films: state.films};
+}
+
+const matchDispatchToProps = dispatch => ({
+    actions: bindActionCreators(Actions, dispatch)
+})
+export default connect(mapStateToProps, matchDispatchToProps)(App);

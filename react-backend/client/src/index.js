@@ -1,18 +1,23 @@
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import FilmData from "./FilmData"
 import AdminPage from './adminPage';
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import registerServiceWorker from './registerServiceWorker';
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
+import {Router} from 'react-router-dom';
+import {Provider} from 'react-redux'
+import {createStore} from 'redux';
 import './App.css';
 import Header from './stories/header/header'
+import allReducers from './reducers';
 
-const Div = styled.div`
+const Div = styled.div `
     &.cont{
         width: 100%;
-	    height: 100%;
+        height: 100%;
 	    position: absolute;
   	    background-color: #2f3c5e;
   	    overflow: hidden;
@@ -36,11 +41,11 @@ const Div = styled.div`
         margin-right: -10vw;
     }
 `;
-const Main = styled.main`
+const Main = styled.main `
     &.main{
         margin-top: -1vw;
         border-radius: 5px;
-	    height: 83vh;
+	    height: 92vh;
 	    width: 74vw;
 	    margin-left: 10vw;
 	    margin-right: 10vw;
@@ -52,22 +57,26 @@ const Main = styled.main`
     ::-webkit-scrollbar { width: 0; }
 `;
 
+const store = createStore(allReducers);
 
 ReactDOM.render(
     <Div className={"cont"}>
         <Header name={"My Profile"}/>
         <Main className={"main"}>
-            <BrowserRouter>
-                <Switch>
-                    <Route exact path="/" component={App} />
-                    <Route exact path="/admin" component={AdminPage} />
-                </Switch>
-            </BrowserRouter>
+            <Provider store={store}>
+                <BrowserRouter>
+                    <Switch>
+                        <Route exact="exact" path="/" component={App}/>
+                        <Route exact="exact" path="/admin" component={AdminPage}/>
+                        <Route exact path="/about/:number" component={FilmData} />
+                    </Switch>
+                </BrowserRouter>
+            </Provider>
         </Main>
-    </Div>
-    ,
-    document.getElementById("root")
+    </Div>,
+    document.getElementById(
+        "root"
+    )
 )
 
 registerServiceWorker();
-

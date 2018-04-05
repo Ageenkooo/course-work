@@ -56,7 +56,16 @@ class MyCalendar extends Component {
                 <Div className={"show"} onClick={this.change}>
                     O
                 </Div>
-                <Calendar onChange={this.onChange} onClick={this.props.onClick} value={this.state.date}/>
+                <Calendar
+                    tileDisabled={(tile) => {
+                        if (tile.date.toString().slice(8, 10) <= 8) {
+                            return false
+                        } else 
+                            return true
+                    }}
+                    onChange={this.onChange}
+                    onClick={this.props.onClick}
+                    value={this.state.date}/>
             </Div>
         );
     }

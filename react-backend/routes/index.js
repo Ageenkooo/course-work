@@ -24,11 +24,6 @@ router.get('/films', (req, res, next) => {
     filmApi
         .getAllFilms()
         .then((result) => {
-            return result.map((one) => {
-                return {name: one.name}
-            })
-        })
-        .then((result) => {
             return res.json(result)
         })
         .catch((err) => {
