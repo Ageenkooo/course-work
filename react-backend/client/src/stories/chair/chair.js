@@ -10,7 +10,7 @@ const ChairImg = styled.img`
     width : 25px;
 	height : 25px;
 	margin: 5px;
-	background-image: {url('./sofa.png')};
+	background-image: url('./sofa.png');
 	background-repeat : no-repeat;
 	background-size : 100% 100%;
 `;
