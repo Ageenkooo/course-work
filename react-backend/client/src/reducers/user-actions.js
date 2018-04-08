@@ -1,4 +1,4 @@
-import { CHANGE_STATE, FILM_SELECTED} from '../constants/actionTypes'
+import { CHANGE_STATE, FILM_SELECTED, SESSION_SELECTED} from '../constants/actionTypes'
 
 export  function Actions(state = {}, action) {
   switch (action.type) {
@@ -19,3 +19,13 @@ export function Active(state = {}, action){
       return state;
   }
 }
+export function ActiveSess(state = {}, action){
+  switch (action.type){
+    case SESSION_SELECTED:
+      return action.payload;
+      break;
+    default:
+      return state;
+  }
+}
+

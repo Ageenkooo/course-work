@@ -13,6 +13,7 @@ import {createStore} from 'redux';
 import './App.css';
 import Header from './stories/header/header'
 import allReducers from './reducers';
+import SessionData from './SessionData';
 
 const Div = styled.div `
     &.cont{
@@ -69,6 +70,7 @@ ReactDOM.render(
                         <Route exact="exact" path="/" component={App}/>
                         <Route exact="exact" path="/admin" component={AdminPage}/>
                         <Route exact path="/about/:number" component={FilmData} />
+                        <Route exact path="/seats/:number" component={SessionData} />
                     </Switch>
                 </BrowserRouter>
             </Provider>

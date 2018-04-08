@@ -8,6 +8,7 @@ import Img from 'react-image';
 import YouTube from 'react-youtube';
 import cn from 'classnames';
 import $ from 'jquery';
+import { Link } from 'react-router-dom'
 window.jQuery = window.$ = $;
 
 const Div = styled.div `
@@ -38,20 +39,23 @@ class FilmData extends Component {
             .target
             .pauseVideo();
     }
+    componentDidMount(){
+        $.ajax({
+            type: 'post',
+            url: '/sessions',
+            data: JSON.stringify({film: this.props.activeFilm.name}),
+            dataType: "json",
+            contentType: "application/json",
+            success: (data) => {
+                this.setState({
+                    sessions: data,
+                });
+            }
+        });
+    }
     showSessions() {
-            $.ajax({
-                type: 'post',
-                url: '/sessions',
-                data: JSON.stringify({film: this.props.activeFilm.name}),
-                dataType: "json",
-                contentType: "application/json",
-                success: (data) => {
-                    this.setState({
-                        sessions: data,
-                    });
-                }
-            });
-            console.log(this.state.sessions)
+
+            return this.state.sessions.map((session)=>{return <Link to={`/seats/${session.time}`} key={session.time}><p onClick={()=>{this.props.actions.selectSess(session)}}>{session.date}-{session.cinema}-{session.time}-{session.price}p</p></Link>})
     }
     render() {
         const opts = {
@@ -93,7 +97,7 @@ class FilmData extends Component {
                     onReady={this._onReady}/>
                     
 
-                    {this.showSessions()}
+                    <p>{this.showSessions()}</p>
                     </Div>
             </Div>
 

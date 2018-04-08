@@ -1,2 +1,3 @@
 export const CHANGE_STATE = 'CHANGE_STATE';
 export const FILM_SELECTED = 'FILM_SELECTED';
+export const SESSION_SELECTED = 'SESSION_SELECTED';
