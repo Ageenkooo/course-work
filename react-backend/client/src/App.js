@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import styled from 'styled-components';
 import cn from 'classnames';
 import './App.css';
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import Header from './stories/header/header'
 import Film from './stories/film/film'
 import CinemaList from './stories/cinema/cinema'
@@ -59,9 +59,14 @@ class App extends Component {
             res
                 .json()
                 .then((result) => {
+
                     this.setState({cinemas: result});
+                    console.log(this.state.cinemas)
                 })
-        });
+                .catch((err) => {
+                    console.log(err)
+                })
+            });
         fetch('/films').then((res) => {
             res
                 .json()
@@ -69,7 +74,10 @@ class App extends Component {
                     this.setState({films: result});
                     this.setState({currentfilms: result});
                 })
-        })
+                .catch((err) => {
+                    console.log(err)
+                })
+            })
     }
     sortFilms(e) {
         const state = this.state;
@@ -149,7 +157,15 @@ class App extends Component {
                 .films
                 .map((film) => {
                     return <Link to={`/about/${film.name}`} key={film.name}>
-                        <Film name={film.name} src={film.poster}  onClick={()=>{this.props.actions.select(film)}} />
+                        <Film
+                            name={film.name}
+                            src={film.poster}
+                            onClick={() => {
+                                this
+                                    .props
+                                    .actions
+                                    .select(film)
+                            }}/>
                     </Link>
                 })
         else 

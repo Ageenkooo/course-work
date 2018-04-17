@@ -66,7 +66,7 @@ class DeleteSession extends Component {
             contentType: "application/json",
             success: (data)=>{
                 this.setState({timeoptions: data.map((one)=>{return {val: one.time}})});
-                this.setState({time: data[0].time});
+                // this.setState({time: data[0].time});
             },
         });
     }
@@ -80,7 +80,7 @@ class DeleteSession extends Component {
             contentType: "application/json",
             success: (data)=>{
                 this.setState({dateoptions: data.map((one)=>{return {val: one.date}})});
-                this.setState({date: data[0].val});
+                // this.setState({date: data[0].val});
             },
         });
     }
@@ -95,7 +95,7 @@ class DeleteSession extends Component {
             success: (data)=>{
                 console.log(data)
                 this.setState({filmoptions: data.map((one)=>{return {val: one}})});
-                this.setState({film: data[0].val});
+                // this.setState({film: data[0].val});
             },
         });
     }
@@ -109,7 +109,7 @@ class DeleteSession extends Component {
             .then((res) => {
                 res.json().then((result) => {
                     this.setState({cinemaoptions: result});
-                    this.setState({cinema: result[0].val})
+                    // this.setState({cinema: result[0].val})
                 })
             })
     }

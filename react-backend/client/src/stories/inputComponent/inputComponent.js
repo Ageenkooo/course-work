@@ -18,7 +18,7 @@ class InputComponent extends Component {
         return (
                     <Div>
                         <p>{this.props.label}</p>
-                        <Input name={this.props.name} value={this.props.value} onChange={this.props.onChange}/>
+                        <Input type={this.props.type} name={this.props.name} value={this.props.value} onChange={this.props.onChange}/>
                     </Div>
         );
     }

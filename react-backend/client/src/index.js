@@ -14,6 +14,9 @@ import './App.css';
 import Header from './stories/header/header'
 import allReducers from './reducers';
 import SessionData from './SessionData';
+import Registration from './registration';
+import LogIn from './login';
+import User from './user';
 
 const Div = styled.div `
     &.cont{
@@ -61,21 +64,25 @@ const Main = styled.main `
 const store = createStore(allReducers);
 
 ReactDOM.render(
-    <Div className={"cont"}>
-        <Header name={"My Profile"}/>
-        <Main className={"main"}>
-            <Provider store={store}>
-                <BrowserRouter>
+
+    <Provider store={store}>
+        <BrowserRouter>
+            <Div className={"cont"}>
+                <Header name={"My Profile"}/>
+                <Main className={"main"}>
                     <Switch>
                         <Route exact="exact" path="/" component={App}/>
                         <Route exact="exact" path="/admin" component={AdminPage}/>
-                        <Route exact path="/about/:number" component={FilmData} />
-                        <Route exact path="/seats/:number" component={SessionData} />
+                        <Route exact="exact" path="/registration" component={Registration}/>
+                        <Route exact="exact" path="/login" component={LogIn}/>
+                        <Route exact="exact" path="/user" component={User}/>
+                        <Route exact="exact" path="/about/:number" component={FilmData}/>
+                        <Route exact="exact" path="/seats/:number" component={SessionData}/>
                     </Switch>
-                </BrowserRouter>
-            </Provider>
-        </Main>
-    </Div>,
+                </Main>
+            </Div>
+        </BrowserRouter>
+    </Provider>,
     document.getElementById(
         "root"
     )

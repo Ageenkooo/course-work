@@ -8,7 +8,8 @@ import Img from 'react-image';
 import YouTube from 'react-youtube';
 import cn from 'classnames';
 import $ from 'jquery';
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
+import Lable from './stories/lable/lable'
 window.jQuery = window.$ = $;
 
 const Div = styled.div `
@@ -20,26 +21,45 @@ const Div = styled.div `
         margin-bottom: 2vw;
     }
     &.space{
-        justify-content:space-around;
+        justify-content:space-between;
         width: 100%;
+    }
+    &.film{
+        padding-left:5%;
+        padding-right: 5%;
+    }
+    &.center{
+        padding: 0 10%;
+    }
+    &.color{
+        background-color: rgba(224,190,191, 1);
+        width: 96%;
+        padding: 2%;
+    }
+    &.film, &.desc{
+        color:#2f3c5e;
     }
 `;
 
 const P = styled.p `
-    padding: 1vw 3vw;
+    color: white;
 `;
 class FilmData extends Component {
     constructor(props) {
         super(props);
-        this.state = {sessions: []};
-        this.showSessions = this.showSessions.bind(this);
+        this.state = {
+            sessions: []
+        };
+        this.showSessions = this
+            .showSessions
+            .bind(this);
     }
     _onReady(event) {
         event
             .target
             .pauseVideo();
     }
-    componentDidMount(){
+    componentDidMount() {
         $.ajax({
             type: 'post',
             url: '/sessions',
@@ -47,15 +67,32 @@ class FilmData extends Component {
             dataType: "json",
             contentType: "application/json",
             success: (data) => {
-                this.setState({
-                    sessions: data,
-                });
+                this.setState({sessions: data});
             }
         });
     }
     showSessions() {
 
-            return this.state.sessions.map((session)=>{return <Link to={`/seats/${session.time}`} key={session.time}><p onClick={()=>{this.props.actions.selectSess(session)}}>{session.date}-{session.cinema}-{session.time}-{session.price}p</p></Link>})
+        return this
+            .state
+            .sessions
+            .map((session) => {
+                return <Link
+                    to={`/seats/${session.time}`}
+                    key={session.time}
+                    style={{
+                        textDecoration: 'none'
+                    }}>
+                    <Lable
+                        onClick={() => {
+                            this
+                                .props
+                                .actions
+                                .selectSess(session)
+                        }}
+                        className={""}>{session.date}-{session.cinema}-{session.time}-{session.price}p</Lable>
+                </Link>
+            })
     }
     render() {
         const opts = {
@@ -75,30 +112,32 @@ class FilmData extends Component {
                         height='25%'
                         width='15%'
                         border-radius='10px'/>
-                    <div>
+                    <Div className={"film"}>
                         <Div className={"flex space"}>
                             <p>{this.props.activeFilm.name}</p>
                             <p>Режиссер: {this.props.activeFilm.producer}</p>
                             <p>Страна: {this.props.activeFilm.country}</p>
                         </Div>
-                        <P className={"desc"}>{
+                        <Div className={"desc"}>{
                                 this
                                     .props
                                     .activeFilm
                                     .description
                                     .slice(0, 400)
-                            }...</P>
-                    </div>
-                </Div>
-                <Div className={"flex"}>
-                <YouTube
-                    videoId={this.props.activeFilm.trailer}
-                    opts={opts}
-                    onReady={this._onReady}/>
-                    
-
-                    <p>{this.showSessions()}</p>
+                            }...</Div>
                     </Div>
+                </Div>
+                <Div className={"flex space color"}>
+                    <YouTube
+                        videoId={this.props.activeFilm.trailer}
+                        opts={opts}
+                        onReady={this._onReady}/>
+
+                    <Div className={"center"}>
+                        <P>Сеансы:</P>
+                        <p>{this.showSessions()}</p>
+                    </Div>
+                </Div>
             </Div>
 
         );

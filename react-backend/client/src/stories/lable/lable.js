@@ -7,6 +7,9 @@ const Lable = styled.p`
     font-size: 1.2vw;
     color: white;
     cursor: pointer;
+    &.color{
+        color: black;
+    }
 `;
 
 class CinemaList extends React.Component{
@@ -16,7 +19,7 @@ class CinemaList extends React.Component{
 
 
     render(){
-        return <Lable name={this.props.name} onClick={this.props.onClick} >{this.props.child}</Lable>
+        return <Lable name={this.props.name} onClick={this.props.onClick} className={this.props.className}>{this.props.child}</Lable>
     }
 }
 export default Lable;

@@ -68,7 +68,7 @@ class ChangeCinema extends Component {
                 .json()
                 .then((result) => {
                     this.setState({options: result});
-                    this.setState({cinema: result[0].val})
+                    // this.setState({cinema: result[0].val})
                 })
         })
     }

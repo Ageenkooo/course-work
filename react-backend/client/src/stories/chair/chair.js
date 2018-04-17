@@ -7,9 +7,11 @@ import sofa2 from './sofaChosen.png';
 import sofa3 from './sofaUnavailable.png'
 
 const ChairImg = styled.img`
-    width : 25px;
-	height : 25px;
-	margin: 5px;
+/* float: left; */
+    width : 50px;
+	height : 50px;
+	margin: 0.5vw;
+    cursor: pointer;
 	background-image: url('./sofa.png');
 	background-repeat : no-repeat;
 	background-size : 100% 100%;
@@ -34,12 +36,14 @@ class Chair extends React.Component{
         if(this.state.sofa === sofa2 )
                 this.setState({sofa: sofa1});
         }
+        
 
 
     render(){
         return <ChairImg  available = {this.props.available}
-                          onClick = {this.onChange}
+                          onClick = {()=>{this.onChange(); this.props.onClick(this.props.name);}}
                           src={this.state.sofa}
+                          name={this.props.name}
         />
     }
 }

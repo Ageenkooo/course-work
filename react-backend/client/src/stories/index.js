@@ -15,7 +15,7 @@ import RegularButton from './button/regularButton';
 import CinemaList from './cinema/cinema';
 import InputComponent from "./inputComponent/inputComponent";
 import MySelect from "./select/select";
-
+import Seats from "./seats/seats";
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
@@ -40,3 +40,5 @@ storiesOf('InputComponent', module)
     .add('available', () => <InputComponent name={"inpjlljjklut"} /> );
 storiesOf('Select', module)
     .add('available', () => <MySelect options={[{val: "first"},{val: "second"}]} name={"select"} /> );
+storiesOf('Seats', module)
+    .add('available', () => <Seats seats={["true","true","true","true","true","true","true","true"]} /> );

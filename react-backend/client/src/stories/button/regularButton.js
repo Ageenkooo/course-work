@@ -28,7 +28,7 @@ class RegularButton extends React.Component{
     }
     render(){
         return (
-            <Input type={"submit"}   onClick={this.props.onClick} value={ this.props.value}/>
+            <Input type={"submit"} onClick={this.props.onClick} value={ this.props.value}/>
         )
     }
 }

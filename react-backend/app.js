@@ -8,8 +8,21 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
-var app = express();
+var mongoose = require("mongoose")
+mongoose.Promise = global.Promise
+var session = require('express-session')
+var MongoStore = require('connect-mongo')(session);
 
+var app = express();
+var sessionStore = new MongoStore({
+  url: "mongodb://localhost:27017/sessioncw",
+})
+app.use(session({
+  secret: 'i need more beers',
+  resave: false,
+  saveUninitialized: false,
+  store: sessionStore,
+}))
 app.all('/', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");

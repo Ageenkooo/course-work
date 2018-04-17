@@ -26,7 +26,7 @@ const Div = styled.div`
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     /* background-color: #2f3c5e; */
-	width : 15vw;
+	width : 18vw;
 	overflow : hidden;
 	display : flex;
 	flex-direction : row;
@@ -36,7 +36,7 @@ const Div = styled.div`
 `;
 class Profile extends React.Component{
     render(){
-        return <Div>
+        return <Div reset={this.props.reset}>
             <LableS onClick = {this.props.onClick}>
                 {this.props.name}
             </LableS>

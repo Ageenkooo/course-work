@@ -19,7 +19,7 @@ class Button extends React.Component{
     }
     render(){
         return (
-            <Input type={"image"} src={Ticket}  onClick={this.props.onClick} width={"25%"} height={"40px"} value={ this.props.value}/>
+            <Input type={"image"} src={Ticket}  onClick={this.props.onClick} width={"25%"} height={"40px"} value={this.props.value}/>
         )
     }
 }

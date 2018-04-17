@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import cn from 'classnames';
 import Profile from '../profile/profile'
+import {Link} from 'react-router-dom'
 
-const Div = styled.div`
+const Div = styled.div `
     display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -15,7 +16,7 @@ const Div = styled.div`
     background-color: #2f3c5e;
 `;
 
-const LableS = styled.p`
+const LableS = styled.p `
     color : white;
 	font-size : 1em;
 	margin-top: 1em;
@@ -23,18 +24,50 @@ const LableS = styled.p`
 	font-weight : 500;
 	/* padding: 2%; */
 `;
-class Header extends React.Component{
+class Header extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            name:"Вход/Регистрация"
+        };
     }
 
-
-    render(){
+    componentDidMount() {
+        fetch('users/userinfo')
+            .then(res => res.json())
+            .then((res) => {
+                this.state.name = res.name;
+                this.setState(this.state);
+            })
+    }
+    componentWillMount(){
+        fetch('users/userinfo')
+            .then(res => res.json())
+            .then((res) => {
+                this.state.name = res.name;
+                this.setState(this.state);
+            })
+    }
+    
+    render() {
         return <Div>
-            <LableS>
-                КиноPro
-            </LableS>
-            <Profile name={this.props.name}/>
+            <Link
+                to={`/`}
+                style={{
+                    textDecoration: 'none'
+                }}>
+                <LableS>
+                    КиноPro
+                </LableS>
+            </Link>
+            <Link
+                to={this.state.name=="Вход/Регистрация"?'/login':'/user'}
+                style={{
+                    textDecoration: 'none'
+                }}>
+                <Profile
+                    name={this.state.name}/>
+            </Link>
         </Div>
     }
 }

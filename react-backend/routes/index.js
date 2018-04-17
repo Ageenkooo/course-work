@@ -8,7 +8,9 @@ router.get('/cinemas', (req, res, next) => {
     cinemaApi
         .getAllCinemas()
         .then((result) => {
+            console.log(result)
             return result.map((one) => {
+                console.log(one)
                 return {name: one.name}
             })
         })

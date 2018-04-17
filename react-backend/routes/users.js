@@ -3,7 +3,91 @@ let router = express.Router();
 let filmApi = require('../api/filmApi');
 let cinemaApi = require('../api/cinemaApi');
 let sessionApi = require('../api/sessionApi')
+var api = require('../api.js')
+var mongoose = require("mongoose");
+var mongoClient = require("mongodb").MongoClient;
 
+var url = "mongodb://localhost:27017/sessioncw";
+
+router.get('/userinfo', function (req, res, next) {
+    var userData;
+
+    mongoClient.connect(url, function (err, db) {
+        const sessionDB = db.db('sessioncw')
+        sessionDB.collection('sessions')
+
+        if (err) 
+            return console.log(err)
+
+        sessionDB
+            .collection("sessions")
+            .find()
+            .toArray(function (err, results) {
+                    userData = JSON
+                        .parse(results[0].session)
+                        .user
+                        if(userData!=undefined)
+                        api
+                        .getUser(userData)
+                        .then((user) => {
+                            res.json(user)
+                        })
+
+                db.close()
+            })
+    })
+
+});
+router.post('/registration', (req, res, next) => {
+    console.log(req.body);
+    api
+        .createUser(req.body)
+        .then(function (result) {
+            console.log("User created")
+            res.json("ok")
+        })
+        .catch(function (err) {
+            if (err.toJSON().code == 11000) {
+                console.log("user wasn't created because this email already exist");
+
+            }
+        })
+    });
+router.post('/login', (req, res, next) => {
+    console.log(req)
+    if (req.session.user) {
+        console.log("User has already logged")
+        return res.redirect('/app')
+    }
+    api
+        .checkUser({email: req.body.email, password: req.body.password})
+        .then((user) => {
+            if (user) {
+                req.session.user = {
+                    id: user._id,
+                    email: user.email
+                }
+                req
+                    .session
+                    .save();
+                console.log("Access")
+                res.json("Access")
+            } else {
+                console.log("smth is wrong1")
+            }
+        })
+        .catch(function (error) {
+            console.log("Error")
+        })
+    });
+    router.post('/logout', function(req, res, next) {
+        console.log(req)
+        if (req.session.user) {
+            delete req.session.user;
+            res.json("Access")
+        }
+
+    });
 router.post('/addfilm', (req, res, next) => {
     console.log(req.body);
     filmApi

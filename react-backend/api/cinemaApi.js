@@ -1,7 +1,7 @@
 let mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-let db = mongoose.connect("mongodb://localhost:27017/coursework");
-let Cinema = require('../db/cinema.js');
+var db = mongoose.connect("mongodb://localhost:27017/coursework");
+let Cinema = require('../db/cinema.js'); 
 
 exports.createCinema = (userData)=>{
     let cinema = {
