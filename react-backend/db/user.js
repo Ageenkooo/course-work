@@ -13,6 +13,9 @@ var User = new mongoose.Schema({
       type: String,
       unique: true,
       required: true,
+  },
+  tickets: {
+      type: Array,
   }
 })
 

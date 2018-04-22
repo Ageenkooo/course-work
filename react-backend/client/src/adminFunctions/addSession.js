@@ -69,7 +69,7 @@ class AddSession extends Component {
                 .json()
                 .then((result) => {
                     this.setState({cinemaoptions: result});
-                    // this.setState({cinema: result[0].val})
+                    this.setState({cinema: result[0].val})
                 })
         })
         fetch('/users/getallfilms').then((res) => {
@@ -77,7 +77,7 @@ class AddSession extends Component {
                 .json()
                 .then((result) => {
                     this.setState({filmoptions: result});
-                    // this.setState({film: result[0].val})
+                    this.setState({film: result[0].val})
                 })
         })
     }

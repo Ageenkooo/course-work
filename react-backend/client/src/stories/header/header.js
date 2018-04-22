@@ -61,7 +61,7 @@ class Header extends React.Component {
                 </LableS>
             </Link>
             <Link
-                to={this.state.name=="Вход/Регистрация"?'/login':'/user'}
+                to={this.state.name=="Вход/Регистрация"?'/login':(this.state.name=="admin"?'/admin':'/user')}
                 style={{
                     textDecoration: 'none'
                 }}>

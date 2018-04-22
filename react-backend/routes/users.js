@@ -23,6 +23,7 @@ router.get('/userinfo', function (req, res, next) {
             .collection("sessions")
             .find()
             .toArray(function (err, results) {
+                if(results[0])
                     userData = JSON
                         .parse(results[0].session)
                         .user
@@ -38,6 +39,8 @@ router.get('/userinfo', function (req, res, next) {
     })
 
 });
+
+
 router.post('/registration', (req, res, next) => {
     console.log(req.body);
     api
@@ -53,6 +56,21 @@ router.post('/registration', (req, res, next) => {
             }
         })
     });
+    router.post('/addtickets', (req, res, next) => {
+        console.log(req.body);
+        api
+            .userTickets(req.body)
+            .then(function (result) {
+                console.log("Tickets added")
+                res.json("ok")
+            })
+            .catch(function (err) {
+                if (err.toJSON().code == 11000) {
+                    console.log("tickets wasn't added ");
+    
+                }
+            })
+        });
 router.post('/login', (req, res, next) => {
     console.log(req)
     if (req.session.user) {
@@ -84,6 +102,7 @@ router.post('/login', (req, res, next) => {
         console.log(req)
         if (req.session.user) {
             delete req.session.user;
+            
             res.json("Access")
         }
 
@@ -270,6 +289,18 @@ router.post('/changesession', (req, res, next) => {
             console.log(err);
         })
     });
+    router.post('/changesessionseats', (req, res, next) => {
+        console.log(req.body);
+        sessionApi
+            .changeSessionSeats(req.body)
+            .then(function (result) {
+                console.log("Session changed");
+                res.json("ok")
+            })
+            .catch(function (err) {
+                console.log(err);
+            })
+        }); 
 
 router.post('/deletesession', (req, res, next) => {
     sessionApi

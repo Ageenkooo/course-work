@@ -20,9 +20,14 @@ const MyCinemaList = styled.div `
     position: absolute !important;
     left: 0px;
 `;
-
+// const Div = styled.div`
+//     background-color: rgba(224,190,191, 1);
+//     margin: 2vw; 
+// `;
 const P = styled.p `
+    font-size: 1.3vw;
     padding-left: 3.5vw;
+    text-align:center;
 `;
 
 class App extends Component {
@@ -51,7 +56,8 @@ class App extends Component {
             filmsbydate: [],
             filmsbysession: [],
             sessions: [],
-            date: ''
+            date: '',
+            activeCinema: "",
         }
     }
     componentDidMount() {
@@ -86,6 +92,7 @@ class App extends Component {
                 .target
                 .getAttribute("name")
         ] = e.target.innerHTML;
+        this.state.activeCinema = e.target.innerHTML;
         this.setState(state);
         $.ajax({
             type: 'post',
@@ -110,7 +117,7 @@ class App extends Component {
             .state
             .cinemas
             .map((cinema) => {
-                return <Lable onClick={this.sortFilms} name={'cinema'}>{cinema.name}</Lable>
+                return <Lable onClick={this.sortFilms} className={this.state.active} name={'cinema'}>{cinema.name}</Lable>
             })
     }
     changeDate(e) {
@@ -180,7 +187,7 @@ class App extends Component {
                         {this.showCinemas()}
                     </CinemaList>
                 </MyCinemaList>
-                <Calendar onClick={this.changeDate}/> {this.show()}
+                <Calendar onClick={this.changeDate}/> <div><P>{this.state.activeCinema}</P></div>{this.show()}
             </div>
         );
     }

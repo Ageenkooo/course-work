@@ -40,7 +40,8 @@ class SessionData extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tickets: []
+            tickets: [],
+            name: ''
         }
         this.click = this
             .click
@@ -48,26 +49,26 @@ class SessionData extends Component {
         this.showTickets = this
             .showTickets
             .bind(this);
+        this.addTickets = this
+            .addTickets
+            .bind(this);
     }
-    // componentDidMount(){     $.ajax({         type: 'post',         url:
-    // '/sessions',         data: JSON.stringify({film:
-    // this.props.activeFilm.name}),         dataType: "json",         contentType:
-    // "application/json",         success: (data) => {             this.setState({
-    // sessions: data,             });         }     }); }
-    click(key) {
-        if (this.state.tickets.includes(key + 1)) {
-            this.state.tickets = this
-                .state
-                .tickets
-                .filter((ticket) => {
-                    return ticket != (key + 1)
-                })
-        } else 
-            this
-                .state
-                .tickets
-                .push(key + 1);
-        this.setState(this);
+    click(key, available) {
+        if (available == "available") {
+            if (this.state.tickets.includes(key + 1)) {
+                this.state.tickets = this
+                    .state
+                    .tickets
+                    .filter((ticket) => {
+                        return ticket != (key + 1)
+                    })
+            } else 
+                this
+                    .state
+                    .tickets
+                    .push(key + 1);
+            this.setState(this);
+        }
     }
     showTickets() {
         if (this.state.tickets.length != 0) 
@@ -78,21 +79,63 @@ class SessionData extends Component {
                         .state
                         .tickets
                         .map((ticket) => {
-                            return <span>Место {ticket}
+                            return <span>Место {ticket} ,
                             </span>
                         })
                 }</Div>
         else 
             return <p>Выберите места для заказа</p>
     }
+    addTickets() {
+        $.ajax({
+            type: 'get',
+            url: '/users/userinfo',
+            dataType: "json",
+            contentType: "application/json",
+            response: 'text',
+            success: ((data) => {
+                this.state.name = data.name;
+                this.setState(this);
+                $.ajax({
+                    type: 'post',
+                    url: '/users/addtickets',
+                    data: JSON.stringify({
+                        name: this.state.name,
+                        ticketsData: {
+                            film: this.props.activeSession.film,
+                            time: this.props.activeSession.time,
+                            date: this.props.activeSession.date,
+                            cinema: this.props.activeSession.cinema,
+                            tickets: this.state.tickets
+                        }
+                    }),
+                    dataType: "json",
+                    contentType: "application/json"
+                });
+            })
+        });
+        for(var i=0; i<this.state.tickets.length; i++)
+        {$.ajax({
+            type: 'post',
+            url: '/users/changesessionseats',
+            data: JSON.stringify({
+                film: this.props.activeSession.film, time: this.props.activeSession.time, date: this.props.activeSession.date, cinema: this.props.activeSession.cinema, seat: this
+                    .state
+                    .tickets[i]
+            }),
+            dataType: "json",
+            contentType: "application/json"
+        });}
+
+    }
     render() {
         return (
             <Div className={"main flex space"}>
-                <p>"{this.props.activeSession.film}" {this.props.activeSession.time}
-                    {this.props.activeSession.date}
-                    {this.props.activeSession.cinema}</p>
+                <p>"{this.props.activeSession.film}" - {this.props.activeSession.time}
+                    - {this.props.activeSession.date}
+                    - {this.props.activeSession.cinema}</p>
                 <Seats seats={this.props.activeSession.seats} onClick={this.click}/> {this.showTickets()}
-                <RegularButton value={"Заказать места"}></RegularButton>
+                <RegularButton value={"Заказать места"} onClick={this.addTickets}></RegularButton>
             </Div>
 
         );

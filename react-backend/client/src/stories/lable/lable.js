@@ -10,6 +10,12 @@ const Lable = styled.p`
     &.color{
         color: black;
     }
+    &.chosen{
+        color:#2f3c5e;
+    }
+    :hover{
+        color:#2f3c5e;
+    }
 `;
 
 class CinemaList extends React.Component{
@@ -17,7 +23,7 @@ class CinemaList extends React.Component{
         super(props);
     }
 
-
+    
     render(){
         return <Lable name={this.props.name} onClick={this.props.onClick} className={this.props.className}>{this.props.child}</Lable>
     }

@@ -41,7 +41,7 @@ class Chair extends React.Component{
 
     render(){
         return <ChairImg  available = {this.props.available}
-                          onClick = {()=>{this.onChange(); this.props.onClick(this.props.name);}}
+                          onClick = {()=>{this.onChange(); this.props.onClick(this.props.name, this.props.available);}}
                           src={this.state.sofa}
                           name={this.props.name}
         />

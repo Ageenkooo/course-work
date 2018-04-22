@@ -66,7 +66,7 @@ class ChangeFilm extends Component {
             .then((res) => {
                 res.json().then((result) => {
                     this.setState({options: result});
-                    // this.setState({films: result[0].val})
+                    this.setState({films: result[0].val})
                 })
             })
     }

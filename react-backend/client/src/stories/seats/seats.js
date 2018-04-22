@@ -29,7 +29,8 @@ class Seats extends React.Component {
             .props
             .seats
             .map((seat, i) => {
-                return <Chair available={"available"} onClick={this.props.onClick} name={i}/>
+                console.log(seat)
+                return  <Chair available={seat?"available":"unavailable"} onClick={this.props.onClick} name={i}/>
             })
     }
     render() {

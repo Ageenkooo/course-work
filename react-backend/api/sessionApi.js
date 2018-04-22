@@ -35,3 +35,10 @@ exports.changeSession = (userData)=>{
     return Session.update({cinema: userData.cinema, film: userData.film, date: userData.date, time: userData.time },
                             {$set:{ [opt]:userData.value}})
 };
+exports.changeSessionSeats = (userData)=>{
+    var seat = userData.seat;
+    var newseats = "seats."+seat;
+    console.log(newseats)
+    return Session.update({cinema: userData.cinema, film: userData.film, date: userData.date, time: userData.time },
+                            {$set:{ [newseats] : false}})
+};
