@@ -14,11 +14,11 @@ const Lable = styled.p`
         color:#2f3c5e;
     }
     :hover{
-        color:#2f3c5e;
+       text-decoration: underline;
     }
 `;
 
-class CinemaList extends React.Component{
+class Lable extends React.Component{
     constructor(props) {
         super(props);
     }

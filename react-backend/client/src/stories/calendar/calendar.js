@@ -11,10 +11,10 @@ const Div = styled.div `
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 22vw;
-        padding: 3vh 1vw;
+        width: 30vw;
+        padding: 3vh 2vw;
 	    color: white;
-	    background-color: rgba(224,190,191, 1);
+	    background-color: #2f3c5e;
 	    height: 20vw;
 	    position: absolute !important;
 	    z-index: 1;
@@ -26,9 +26,16 @@ const Div = styled.div `
 	    transition: margin-right 0.3s ease-out 0.3s;
     }
     &.unactive{
-        margin-right: -10vw;
+        margin-right: -30vw;
     }
 `;
+const P = styled.p`
+    transform: rotate(-90deg);
+    width: 70px;
+    height:100px;
+    font-size: 1.3vw;
+`;
+
 
 class MyCalendar extends Component {
     constructor(props) {
@@ -54,7 +61,7 @@ class MyCalendar extends Component {
         return (
             <Div className={this.state.class} onClick={this.props.onClick}>
                 <Div className={"show"} onClick={this.change}>
-                    O
+                    <P>Календарь</P>
                 </Div>
                 <Calendar
                     tileDisabled={(tile) => {

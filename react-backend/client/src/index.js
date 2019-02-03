@@ -17,13 +17,16 @@ import SessionData from './SessionData';
 import Registration from './registration';
 import LogIn from './login';
 import User from './user';
+import backIm from './images/6284.jpg'
 
 const Div = styled.div `
     &.cont{
         width: 100%;
         height: 100%;
 	    position: absolute;
-  	    background-color: #2f3c5e;
+        background-image: url(${backIm});
+        background-size:100% 100%;
+  	    /* background-color: #2f3c5e; */
   	    overflow: hidden;
     }
     &.calendar{
@@ -47,13 +50,15 @@ const Div = styled.div `
 `;
 const Main = styled.main `
     &.main{
+        /* box-shadow: inset 6px 2px 53px 27px rgba(0,0,0,0.75); */
+        border-top: 1px solid white;
         margin-top: -1vw;
         border-radius: 5px;
 	    height: 92vh;
 	    width: 74vw;
 	    margin-left: 10vw;
 	    margin-right: 10vw;
-	    background-color: white;
+	    background-color: #1F2124;
 	    overflow: scroll;
 	    overflow-x: hidden;
 	    padding: 0 3vw;

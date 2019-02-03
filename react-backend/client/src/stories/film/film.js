@@ -11,16 +11,18 @@ const Div = styled.div `
         margin:1.7vw;
     }
     &.film{
-        height: 27vw;
+        border: 0.5px solid white;
+        height: 23vw;
 	    width: 15vw;
-	    background-color: #2f3c5e;
+        background-size: 100% 100%;
 	    padding-top: 0.5vw ;
 	    color: white;
 	    font-size: 0.9vw;
         display: flex;
         flex-direction: column;
-        justify-content:space-between;
-
+        justify-content:flex-end;
+        overflow: hidden;
+        box-shadow: 10px 11px 25px -4px rgba(0,0,0,0.75);
 	}
 	
     &.poster{
@@ -34,8 +36,10 @@ const Div = styled.div `
 	}	
 `;
 const P = styled.p `
-    padding: 0.5vw 0.5vw 0vw 0.5vw;
-    margin: 0;
+    padding: 1vw 0.5vw;
+    background-color: #2f3c5e;
+    border-left: 0.5px solid white;
+    border-right: 0.5px solid white;
     text-align: center;
 `;
 
@@ -45,15 +49,10 @@ class Film extends React.Component {
     }
     render() {
         return (
-            <Div className={"wrapper"} onClick = {this.props.onClick}>
-                <Div className="film">
-                    <Img
-                        src={this.props.src}
-                        height='75%'
-                        width='100%'
-                        border-radius='10px'/>
+            <Div className={"wrapper"} onClick = {this.props.onClick} >
+                <Div className="film" style={{backgroundImage:'url(' + this.props.src + ')'}}>
                     <P>{this.props.name}</P>
-                    <RegularButton value="Подробнее"/>
+                    {/* <RegularButton value="Подробнее"/> */}
                 </Div>
             </Div>
         )

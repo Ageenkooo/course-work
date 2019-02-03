@@ -13,10 +13,10 @@ const Div = styled.div`
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 15vw;
-        padding: 2vw 2vw;
+        width: 10vw;
+        padding: 2vw 2.1vw;
 	    color: white;
-	    background-color: rgba(224,190,191, 1);
+	    background-color: #2f3c5e;
 	    position: absolute !important;
 	    z-index: 1;
 	    border-top-right-radius: 5px;
@@ -24,8 +24,12 @@ const Div = styled.div`
 	    transition: left 0.3s ease-out 0.3s;
 	}
 	&.unactive{
-        left: -5vw;
+        left: -10vw;
     }
+`;
+const P = styled.p`
+    transform: rotate(90deg);
+    font-size: 1.3vw;
 `;
 
 class CinemaList extends React.Component{
@@ -46,7 +50,7 @@ class CinemaList extends React.Component{
                     <Div>
                         {this.props.children}
                     </Div>
-                    <Div className={"show"} onClick={this.change}>O</Div>
+                    <Div className={"show"} onClick={this.change}><P>Кинотеатры</P></Div>
                 </Div>
     }
 }

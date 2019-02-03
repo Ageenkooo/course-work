@@ -12,22 +12,28 @@ import ChangeCinema from "./adminFunctions/changeCinema";
 import ChangeSession from "./adminFunctions/changeSession";
 
 const P = styled.p `
+    &.center{
+        text-align: center;
+    }
+    color: white;
     &.function{
-        border: 5px solid white;
+        color: white;
+        border: 5px solid #1F2124;
         margin: 0;
         padding: 1vw;
-        background-color:  rgba(224,190,191, 1);
+        background-color: #2f3c5e;
         cursor: pointer;
         border-radius: 10px;
         position: relative;
         z-index: 2;
     }
     &.function:hover{
-        background-color: #FFDCF5;
+        background-color: #625772;
     }
 `;
 const Wrapper = styled.div `
-    background-color: white;
+    color: white;
+    background-color: #1F2124;
     &.visible, &.hidden{
         position: relative;
         z-index: 1;
@@ -42,7 +48,8 @@ const Wrapper = styled.div `
     }
 `;
 const WrapperBig = styled.div `
-    background-color: white;
+color: white;
+    background-color: #1F2124;
     &.visible, &.hidden{
         position: relative;
         z-index: 1;
@@ -99,7 +106,7 @@ class AdminPage extends Component {
     render() {
         return (
             <div>
-                <p>Страница администратора</p>
+                <P className={"center"}>Страница администратора</P>
                 <P className={"function"} onClick={this.show} name="newFilm" id={"newFilm"}>Добавить фильм</P>
                 <WrapperBig className={this.state.newFilm}>
                     <NewFilm/>

@@ -6,7 +6,7 @@ import Chair from '../chair/chair'
 
 const Div = styled.div `
     width: 47vw;
-    background-color: rgba(224,190,191, 1);
+    background-color: #2f3c5e;
     padding:2vw;
     border-radius: 5px;
 `;

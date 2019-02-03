@@ -12,7 +12,7 @@ const Form = styled.div `
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    background-color: rgba(224,190,191, 1);
+    /* background-color: #2f3c5e; */
     border-radius: 5px;
     padding: 2%;
     margin-top: 2vw;
@@ -21,14 +21,18 @@ const Form = styled.div `
     margin-right: 8%;
 `;
 const Div = styled.div`
+    color: #dedcee;
     &.line{
+        background-color: #1F2124;
         border-right: 2px solid white;
     }   
     padding: 2%;
 `;
+const Span = styled.span`
+    color: #54546c;
+`;
 class User extends Component {
 
-    //   static contextTypes = { router: React.PropTypes.object }
     constructor(props) {
         super(props);
         this.state = {
@@ -41,6 +45,7 @@ class User extends Component {
             .Logout
             .bind(this);
             this.showTickets=this.showTickets.bind(this);
+            this.countTickets=this.countTickets.bind(this);
     }
 
     componentDidMount() {
@@ -56,8 +61,11 @@ class User extends Component {
     }
     showTickets(){
         if(this.state.ticketsData[0])
-            return this.state.ticketsData.map((data)=>{return <div><p>{data.film}- {data.time} - {data.cinema} -{data.date}</p>
-                                                    {data.tickets.map((ticket)=>{return <span> Место {ticket} </span>})}</div>})
+            return this.state.ticketsData.map((data)=>
+            {return <div><p>"{data.film}" - {data.time} - {data.cinema} -{data.date}</p>
+               <p>Места :</p>                                     
+            {data.tickets.map((ticket)=>{return <span> Место {ticket+1} </span>})}
+            <hr/></div>})
         else{
             return <p>Вы еще не заказали ни одного билета</p>
         }
@@ -81,16 +89,23 @@ class User extends Component {
             }
         });
     }
+    countTickets(){
+        var tickets = 0;
+        this.state.ticketsData.forEach((cur)=>{tickets += cur.tickets.length})
+        return tickets;
+    }
     render() {
         return (
             <Form>
             <Div className="line">
-                <p>Имя пользователя : {this.state.name}</p>
-                <p>Email : {this.state.email}</p>
+                <p><Span >Пользователь </Span></p>
+                <p><Span>Имя  :</Span> {this.state.name}</p>
+                <p><Span>Email :</Span> {this.state.email}</p>
+                <p><Span>Количество билетов :</Span> {this.countTickets()}</p>
                 <RegularButton onClick={this.Logout} value="Выйти"></RegularButton>
             </Div>
             <Div>
-                <p>Заказанные билеты</p>
+                <p><Span>Заказанные билеты</Span></p>
             {this.showTickets()}</Div>
             </Form>
         );

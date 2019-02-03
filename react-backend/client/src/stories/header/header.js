@@ -10,10 +10,10 @@ const Div = styled.div `
 	flex-direction: row;
 	justify-content: space-between;
 	color: white;
-	padding-left: 11vw;
-	padding-right: 10vw;
+	padding-left: 17vw;
+	padding-right: 17vw;
 	font-size: 1.5vw;
-    background-color: #2f3c5e;
+    /* background-color: #2f3c5e; */
 `;
 
 const LableS = styled.p `
@@ -45,6 +45,10 @@ class Header extends React.Component {
             .then(res => res.json())
             .then((res) => {
                 this.state.name = res.name;
+                this.setState(this.state);
+            })
+            .catch((err)=>{
+                this.state.name = "Вход/Регистрация";
                 this.setState(this.state);
             })
     }

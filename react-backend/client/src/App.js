@@ -25,6 +25,7 @@ const MyCinemaList = styled.div `
 //     margin: 2vw; 
 // `;
 const P = styled.p `
+    color: white;
     font-size: 1.3vw;
     padding-left: 3.5vw;
     text-align:center;
@@ -183,7 +184,6 @@ class App extends Component {
             <div >
                 <MyCinemaList>
                     <CinemaList>
-                        <P>Кинотеатры</P>
                         {this.showCinemas()}
                     </CinemaList>
                 </MyCinemaList>

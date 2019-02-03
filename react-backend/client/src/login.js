@@ -14,22 +14,28 @@ const Form = styled.form `
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    background-color: rgba(224,190,191, 1);
+    background-color: #2f3c5e;
     border-radius: 5px;
     margin-top: 2vw;
     color: white;
     margin-left: 25%;
     margin-right: 25%;
 `;
+const P = styled.p`
+    color: white;
+`;
+const Span = styled.span `
+    color: #54546c;
+`;
 class LogIn extends Component {
 
-    //   static contextTypes = { router: React.PropTypes.object }
     constructor(props) {
         super(props);
         this.state = {
             email: '',
             password: '',
-            linking: true
+            linking: true,
+            message: ''
         };
         this.onChange = this
             .onChange
@@ -47,6 +53,7 @@ class LogIn extends Component {
     onChange(e){
         const state = this.state;
         state[e.target.name] = e.target.value;
+        this.state.message= '';
         this.setState(state);
     }
     onSubmit(e){
@@ -58,14 +65,17 @@ class LogIn extends Component {
             dataType: "json",
             contentType: "application/json",
             success: (data) => {
+                this.state.message= '';
                 if (data == 'Access') {
                     this
                         .props
                         .history
                         .push('/');
                 }
-            }
+            } ,
+            error: this.state.message = "Неправильный e-mail или пароль"
         });
+        this.setState(this);
     }
     handleClick(e) {
         if (!this.state.linking) 
@@ -75,24 +85,24 @@ class LogIn extends Component {
     render() {
         return (
             <Form onSubmit={this.onSubmit} action="/signIn" method="post">
-                <p>Sign in</p>
+                <p>Вход на сайт</p>
                 <br/>
-                <p >Your e-mail</p>
+                <p >Ваш e-mail</p>
                 <Input
                     type="text"
                     name="email"
                     value={this.state.email}
                     onChange={this.onChange}/>
-                <p >Password</p>
+                <p >Ваш пароль</p>
                 <Input
                     type="password"
                     name="password"
                     value={this.state.password}
                     onChange={this.onChange}/>
                 <br/>
-                <RegularButton type="submit" value="Войти"></RegularButton>
+                <RegularButton type="submit" value="Войти"></RegularButton><Span>{this.state.message}</Span>
                 <Link to={'/registration'}>
-                    <p>Зарегистрироваться</p>
+                    <P>Зарегистрироваться</P>
                 </Link>
             </Form>
         );

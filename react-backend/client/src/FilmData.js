@@ -13,6 +13,11 @@ import Lable from './stories/lable/lable'
 window.jQuery = window.$ = $;
 
 const Div = styled.div `
+    &.img{
+        border:1px solid white;
+        height: 300px;
+        width: 200px;
+    }
     &.main{
         margin-top: 2vw;
     }
@@ -24,6 +29,9 @@ const Div = styled.div `
         justify-content:space-between;
         width: 100%;
     }
+    &.centerAlign{
+        align-items: center;
+    }
     &.film{
         padding-left:5%;
         padding-right: 5%;
@@ -32,17 +40,28 @@ const Div = styled.div `
         padding: 0 10%;
     }
     &.color{
-        background-color: rgba(224,190,191, 1);
+        background-color: #2f3c5e;
+        opacity: 0.7;
         width: 96%;
         padding: 2%;
     }
+    &.color:hover{
+        opacity: 0.95;
+    }
     &.film, &.desc{
-        color:#2f3c5e;
+        color: #dedcee;
+        text-shadow: black 0 0 2px;
     }
 `;
 
 const P = styled.p `
     color: white;
+    font-size: 1.4vw;
+    font-style: italic;
+`;
+
+const Span = styled.span`
+    color: #54546c;
 `;
 class FilmData extends Component {
     constructor(props) {
@@ -107,16 +126,17 @@ class FilmData extends Component {
         return (
             <Div className={"main"}>
                 <Div className={"flex"}>
+                    {/* <Div className={"img"}> */}
                     <Img
                         src={this.props.activeFilm.poster}
-                        height='25%'
-                        width='15%'
-                        border-radius='10px'/>
+                        height='300px'
+                        width='200px'/>
+                        {/* </Div> */}
                     <Div className={"film"}>
-                        <Div className={"flex space"}>
-                            <p>{this.props.activeFilm.name}</p>
-                            <p>Режиссер: {this.props.activeFilm.producer}</p>
-                            <p>Страна: {this.props.activeFilm.country}</p>
+                        <Div className={"flex space centerAlign"}>
+                            <P>{this.props.activeFilm.name}</P>
+                            <p><Span>Режиссер: </Span>{this.props.activeFilm.producer}</p>
+                            <p><Span>Страна:</Span> {this.props.activeFilm.country}</p>
                         </Div>
                         <Div className={"desc"}>{
                                 this

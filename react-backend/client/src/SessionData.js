@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as Actions from './actions';
 import styled from 'styled-components';
+import {withRouter} from "react-router-dom";
 import Img from 'react-image';
 import YouTube from 'react-youtube';
 import cn from 'classnames';
@@ -16,6 +17,7 @@ const Div = styled.div `
     &.main{
         margin-top: 2vw;
     }
+    color: #dedcee;
     &.flex{
         display: flex;
         flex-direction: column;
@@ -27,21 +29,18 @@ const Div = styled.div `
         width: 47vw;
         text-align:center;
     }
-
 `;
 
 const P = styled.p `
-    &.seat{
-        float: left;
-        padding: 2vw;
-    }
+    color: #54546c;
 `;
 class SessionData extends Component {
     constructor(props) {
         super(props);
         this.state = {
             tickets: [],
-            name: ''
+            name: '',
+            message: '',
         }
         this.click = this
             .click
@@ -55,38 +54,45 @@ class SessionData extends Component {
     }
     click(key, available) {
         if (available == "available") {
-            if (this.state.tickets.includes(key + 1)) {
+            this.state.message = '';
+            if (this.state.tickets.includes(key)) {
                 this.state.tickets = this
                     .state
                     .tickets
                     .filter((ticket) => {
-                        return ticket != (key + 1)
+                        return ticket != (key)
                     })
             } else 
                 this
                     .state
                     .tickets
-                    .push(key + 1);
+                    .push(key);
             this.setState(this);
         }
     }
     showTickets() {
         if (this.state.tickets.length != 0) 
             return <Div className={"tickets"}>
-                <p>Билеты для заказа:</p>
+                <P>Билеты для заказа:</P>
                 {
                     this
                         .state
                         .tickets
                         .map((ticket) => {
-                            return <span>Место {ticket} ,
+                            return <span>Место {ticket+1}
+                                ,
                             </span>
                         })
-                }</Div>
+                }
+                <P>Цена</P>
+                {this.props.activeSession.price * this.state.tickets.length}
+                руб.
+            </Div>
         else 
-            return <p>Выберите места для заказа</p>
+            return <P>Выберите места для заказа</P>
     }
     addTickets() {
+        if(this.state.tickets.length>0)
         $.ajax({
             type: 'get',
             url: '/users/userinfo',
@@ -110,23 +116,31 @@ class SessionData extends Component {
                         }
                     }),
                     dataType: "json",
-                    contentType: "application/json"
+                    contentType: "application/json",
+                    success: this
+                        .props
+                        .history
+                        .push('/user')
                 });
-            })
-        });
-        for(var i=0; i<this.state.tickets.length; i++)
-        {$.ajax({
-            type: 'post',
-            url: '/users/changesessionseats',
-            data: JSON.stringify({
-                film: this.props.activeSession.film, time: this.props.activeSession.time, date: this.props.activeSession.date, cinema: this.props.activeSession.cinema, seat: this
-                    .state
-                    .tickets[i]
             }),
-            dataType: "json",
-            contentType: "application/json"
-        });}
-
+            error: this.state.message = "Сначала зарегистрируйтесь"
+        });
+        else
+            this.state.message = "выберите места сначала!";
+        for (var i = 0; i < this.state.tickets.length; i++) {
+            $.ajax({
+                type: 'post',
+                url: '/users/changesessionseats',
+                data: JSON.stringify({
+                    film: this.props.activeSession.film, time: this.props.activeSession.time, date: this.props.activeSession.date, cinema: this.props.activeSession.cinema, seat: this
+                        .state
+                        .tickets[i]
+                }),
+                dataType: "json",
+                contentType: "application/json"
+            });
+        }
+        this.setState(this)
     }
     render() {
         return (
@@ -135,7 +149,7 @@ class SessionData extends Component {
                     - {this.props.activeSession.date}
                     - {this.props.activeSession.cinema}</p>
                 <Seats seats={this.props.activeSession.seats} onClick={this.click}/> {this.showTickets()}
-                <RegularButton value={"Заказать места"} onClick={this.addTickets}></RegularButton>
+                <RegularButton value={"Заказать места"} onClick={this.addTickets}></RegularButton>{this.state.message}
             </Div>
 
         );
@@ -149,4 +163,6 @@ const matchDispatchToProps = dispatch => ({
     actions: bindActionCreators(Actions, dispatch)
 })
 
-export default connect(mapStateToProps, matchDispatchToProps)(SessionData);
+export default withRouter(connect(mapStateToProps, matchDispatchToProps)(
+    SessionData
+));

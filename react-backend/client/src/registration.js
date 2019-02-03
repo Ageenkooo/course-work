@@ -14,12 +14,16 @@ const Form = styled.form `
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    background-color: rgba(224,190,191, 1);
+    background-color: #2f3c5e;
     border-radius: 5px;
     margin-top: 2vw;
     color: white;
     margin-left: 25%;
     margin-right: 25%;
+`;
+
+const Span = styled.span `
+    color: #54546c;
 `;
 class Registration extends Component {
     constructor(props) {
@@ -29,7 +33,9 @@ class Registration extends Component {
             email: '',
             password: '',
             confirmPass: '',
-            linking: true
+            linking: true,
+            emailMes: '',
+            passMes: ''
         };
         this.onChange = this
             .onChange
@@ -47,11 +53,20 @@ class Registration extends Component {
     onChange = (e) => {
         const state = this.state
         state[e.target.name] = e.target.value;
+        if (e.target.name == "email" && /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/.test(e.target.value)) 
+            this.state.emailMes = "Валидный email"
+        else if (e.target.name == "email") 
+            this.state.emailMes = "Невалидный,вводите еще";
+        
+        if (e.target.name == "confirmPass" && e.target.value == this.state.password) 
+            this.state.passMes = "Пароли совпадают"
+        else if (e.target.name == "confirmPass") 
+            this.state.passMes = "Пароли не совпадают!"
         this.setState(state);
     }
     onSubmit = (e) => {
         e.preventDefault();
-        if (this.state.password != '' && this.state.confirmPass != '' && this.state.password == this.state.confirmPass) {
+        if (this.state.password != '' && this.state.confirmPass != '' && this.state.password == this.state.confirmPass && this.state.emailMes == "Валидный email") {
             $.ajax({
                 type: 'post',
                 url: '/users/registration',
@@ -78,32 +93,37 @@ class Registration extends Component {
         return (
             <Form onSubmit={this.onSubmit} action="/registration" method="post">
                 <p >Регистрация</p>
-                <p >Имя пользователя :
+                <p >Имя пользователя
                 </p>
                 <Input
                     type="text"
                     name="name"
                     value={this.state.name}
                     onChange={this.onChange}/>
-                <p >E-mail :</p>
+                <p >E-mail
+                </p>
                 <Input
                     type="text"
                     name="email"
                     value={this.state.email}
                     onChange={this.onChange}/>
-                <p >Введите пароль :</p>
+                <Span>{this.state.emailMes}</Span>
+                <p >Введите пароль
+                </p>
                 <Input
                     type="password"
                     name="password"
                     value={this.state.password}
                     onChange={this.onChange}/>
                 <p >
-                    Повторите пароль :</p>
+                    Повторите пароль
+                </p>
                 <Input
                     type="password"
                     name="confirmPass"
                     value={this.state.confirmPass}
                     onChange={this.onChange}/>
+                    <Span>{this.state.passMes}</Span>
                 <br/>
                 <RegularButton value={"Зарегистрироваться"}></RegularButton>
             </Form>

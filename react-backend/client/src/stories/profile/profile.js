@@ -10,7 +10,8 @@ const LableS = styled.p`
 	/* margin-top: 1.5em; */
 	font-family: Geneva, Arial, Helvetica, sans-serif;
 	font-weight : 500;
-`;
+`; 
+ 
 
 const ImgS = styled.img`
 	width : 40px;
