@@ -18,7 +18,7 @@ const Lable = styled.p`
     }
 `;
 
-class Lable extends React.Component{
+class CinemaList extends React.Component{
     constructor(props) {
         super(props);
     }
